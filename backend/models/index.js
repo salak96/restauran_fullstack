@@ -27,8 +27,23 @@ fs
     );
   })
   .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-    db[model.name] = model;
+    try {
+      const modelPath = path.join(__dirname, file);
+      const model = require(modelPath)(sequelize, Sequelize.DataTypes);
+
+      if (model && model.name) { // Pengecekan lebih ketat
+        db[model.name] = model;
+      } else {
+        console.warn(`Model ${file} tidak valid atau tidak memiliki properti 'name'.`);
+        if(!model){
+          console.warn(`Model di ${file} bernilai undefined`)
+        }
+      }
+    } catch (error) {
+      console.error(`Gagal memuat model ${file}:`, error);
+      // Opsi: Jika error ini kritikal, Anda bisa menghentikan proses:
+      // process.exit(1);
+    }
   });
 
 Object.keys(db).forEach(modelName => {

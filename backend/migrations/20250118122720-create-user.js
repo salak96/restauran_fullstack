@@ -11,17 +11,21 @@ module.exports = {
       },
       username: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+        allowNull: false,  // Menambahkan validasi agar username tidak kosong
       },
       fullname: {
-        type: Sequelize.VARCHAR
+        type: Sequelize.STRING,  // Mengganti VARCHAR dengan STRING
+        allowNull: false,        // Menambahkan validasi agar fullname tidak kosong
       },
       email: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+        allowNull: false,        // Menambahkan validasi agar email tidak kosong
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,        // Menambahkan validasi agar password tidak kosong
       },
       createdAt: {
         allowNull: false,
